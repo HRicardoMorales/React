@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import CartWidget from './CartWidget';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const categories = ['ropa', 'electronica', 'accesorios'];
+const categories = ['mens clothing', 'jewelery', 'electronics', 'womens clothing'];
 
 const NavBar = () => {
     return (
