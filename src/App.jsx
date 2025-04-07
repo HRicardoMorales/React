@@ -1,21 +1,35 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import ItemListContainer from './components/ItemListContainer';
-import ItemDetailContainer from './components/ItemDetailContainer';
+import NavBar from './components/NavBar/NavBar';
+import ItemListContainer from './components/ItemListContainer/ItemListContainer';
+import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
+import Checkout from './components/Checkout/Checkout';
+import { CartProvider } from './context/CartContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<ItemListContainer greeting="¡Bienvenidos a nuestra tienda!" />} />
-        <Route path="/category/:categoryId" element={<ItemListContainer greeting="Categoría seleccionada" />} />
-        <Route path="/item/:itemId" element={<ItemDetailContainer />} />
-      </Routes>
-    </BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<ItemListContainer greeting="¡Bienvenidos a nuestra tienda!" />} />
+          <Route path="/category/:categoryId" element={<ItemListContainer greeting="Categoría seleccionada" />} />
+          <Route path="/item/:itemId" element={<ItemDetailContainer />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Routes>
+        <ToastContainer position="bottom-right" autoClose={3000} />
+        <ToastContainer />
+      </BrowserRouter>
+    </CartProvider>
   );
 };
 
 export default App;
+
 
