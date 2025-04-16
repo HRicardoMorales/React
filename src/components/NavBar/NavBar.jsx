@@ -4,9 +4,9 @@ import CartWidget from './CartWidget';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const categories = [
-    { id: 'ropa', name: 'Ropa y Moda' },
-    { id: 'electronica', name: 'Electrónica' },
-    { id: 'accesorios', name: 'Accesorios' }
+    { name: 'sunglasses' },
+    { name: 'motorcycle' },
+    { name: 'smartphones' }
 ];
 
 const NavBar = () => {
@@ -20,8 +20,10 @@ const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto">
                         {categories.map(category => (
-                            <li key={category.id} className="nav-item">
-                                <Link className="nav-link" to={`/category/${category.id}`}>{category.name}</Link>
+                            <li key={category.name} className="nav-item">
+                                <Link className="nav-link" to={`/categoria/${encodeURIComponent(category.name)}`}>
+                                    {category.name}
+                                </Link>
                             </li>
                         ))}
                     </ul>
@@ -33,3 +35,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

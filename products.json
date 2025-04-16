@@ -1,0 +1,107 @@
+[
+    {
+        "title": "iPhone 9",
+        "description": "Un móvil de Apple que no se parece a ningún otro.",
+        "price": 549,
+        "category": "smartphones",
+        "image": "https://i.dummyjson.com/data/products/1/1.jpg"
+    },
+    {
+        "title": "Samsung Galaxy S9",
+        "description": "Smartphone de alta gama con excelente rendimiento.",
+        "price": 499,
+        "category": "smartphones",
+        "image": "https://i.dummyjson.com/data/products/2/1.jpg"
+    },
+    {
+        "title": "Huawei P30",
+        "description": "Cámara potente y diseño elegante.",
+        "price": 599,
+        "category": "smartphones",
+        "image": "https://i.dummyjson.com/data/products/3/1.jpg"
+    },
+    {
+        "title": "OnePlus 7 Pro",
+        "description": "Rendimiento rápido y pantalla fluida.",
+        "price": 669,
+        "category": "smartphones",
+        "image": "https://i.dummyjson.com/data/products/4/1.jpg"
+    },
+    {
+        "title": "Google Pixel 4",
+        "description": "Experiencia Android pura con excelente cámara.",
+        "price": 799,
+        "category": "smartphones",
+        "image": "https://i.dummyjson.com/data/products/5/1.jpg"
+    },
+    {
+        "title": "Harley Davidson Sportster",
+        "description": "Motocicleta clásica con diseño robusto y motor potente.",
+        "price": 8999,
+        "category": "motorcycle",
+        "image": "https://i.dummyjson.com/data/products/93/1.jpg"
+    },
+    {
+        "title": "Yamaha YZF-R3",
+        "description": "Deportiva ligera ideal para principiantes.",
+        "price": 5299,
+        "category": "motorcycle",
+        "image": "https://i.dummyjson.com/data/products/94/1.jpg"
+    },
+    {
+        "title": "Kawasaki Ninja 400",
+        "description": "Equilibrio perfecto entre potencia y manejo.",
+        "price": 5499,
+        "category": "motorcycle",
+        "image": "https://i.dummyjson.com/data/products/95/1.jpg"
+    },
+    {
+        "title": "Ducati Monster 821",
+        "description": "Naked bike con diseño italiano y alto rendimiento.",
+        "price": 11995,
+        "category": "motorcycle",
+        "image": "https://i.dummyjson.com/data/products/96/1.jpg"
+    },
+    {
+        "title": "BMW R1250GS",
+        "description": "Motocicleta de aventura para cualquier terreno.",
+        "price": 17995,
+        "category": "motorcycle",
+        "image": "https://i.dummyjson.com/data/products/97/1.jpg"
+    },
+    {
+        "title": "Ray-Ban Aviator",
+        "description": "Lentes de sol estilo aviador con protección UV400.",
+        "price": 199,
+        "category": "sunglasses",
+        "image": "https://i.dummyjson.com/data/products/84/1.jpg"
+    },
+    {
+        "title": "Oakley Holbrook",
+        "description": "Diseño clásico con tecnología moderna.",
+        "price": 150,
+        "category": "sunglasses",
+        "image": "https://i.dummyjson.com/data/products/85/1.jpg"
+    },
+    {
+        "title": "Maui Jim Peahi",
+        "description": "Lentes polarizados ideales para actividades al aire libre.",
+        "price": 229,
+        "category": "sunglasses",
+        "image": "https://i.dummyjson.com/data/products/86/1.jpg"
+    },
+    {
+        "title": "Persol PO0714",
+        "description": "Diseño plegable y elegante.",
+        "price": 310,
+        "category": "sunglasses",
+        "image": "https://i.dummyjson.com/data/products/87/1.jpg"
+    },
+    {
+        "title": "Gucci GG0061S",
+        "description": "Estilo de lujo con detalles distintivos.",
+        "price": 450,
+        "category": "sunglasses",
+        "image": "https://i.dummyjson.com/data/products/88/1.jpg"
+    }
+]

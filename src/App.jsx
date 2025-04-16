@@ -9,6 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cart from './context/Cart'; 
+import CategoryView from './components/CategoryView';
+
 
 
 
@@ -22,6 +25,8 @@ const App = () => {
           <Route path="/category/:categoryId" element={<ItemListContainer greeting="Categoría seleccionada" />} />
           <Route path="/item/:itemId" element={<ItemDetailContainer />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/categoria/:categoryId" element={<CategoryView />} />
         </Routes>
         <ToastContainer position="bottom-right" autoClose={3000} />
         <ToastContainer />

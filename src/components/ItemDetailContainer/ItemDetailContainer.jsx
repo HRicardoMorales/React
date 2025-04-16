@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CartContext } from '../../context/CartContext';
+import { toast } from 'react-toastify';
 
 const ItemDetailContainer = () => {
     const { itemId } = useParams();
@@ -11,17 +14,34 @@ const ItemDetailContainer = () => {
     const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(`https://fakestoreapi.com/products/${itemId}`)
-            .then(response => response.json())
-            .then(data => setProduct(data))
-            .catch(error => console.error("Error al obtener detalles del producto:", error))
-            .finally(() => setLoading(false));
+        const fetchProduct = async () => {
+            setLoading(true);
+            try {
+                const docRef = doc(db, "products", itemId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    setProduct({ id: docSnap.id, ...docSnap.data() });
+                } else {
+                    console.log("No se encontró el producto");
+                    setProduct(null);
+                }
+            } catch (error) {
+                console.error("Error al obtener el producto:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProduct();
     }, [itemId]);
 
     const handleAddToCart = () => {
         addToCart(product, quantity);
-        alert(`${product.title} agregado al carrito`);
+        toast.success(`${product.title} agregado al carrito`, {
+            position: "top-right",
+            autoClose: 2000
+        });
     };
 
     const handleDecrease = () => {
@@ -43,7 +63,7 @@ const ItemDetailContainer = () => {
                         src={product.image}
                         alt={product.title}
                         className="img-fluid"
-                        style={{ maxHeight: '400px', objectFit: 'contain' }}
+                        style={{ maxHeight: '250px', objectFit: 'contain' }}
                     />
                 </div>
                 <div className="col-md-6">
@@ -63,11 +83,11 @@ const ItemDetailContainer = () => {
                 </div>
             </div>
         </div>
-        
     );
 };
 
 export default ItemDetailContainer;
+
 
 
 

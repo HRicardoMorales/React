@@ -1,79 +1,82 @@
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../../context/CartContext';
-import Brief from './Brief';
+import { db } from '../../firebaseConfig';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import Brief from './Brief'; // ⬅️ IMPORTANTE: importás Brief
 
 const Checkout = () => {
-    const { cart, clearCart } = useContext(CartContext);
-    const [buyer, setBuyer] = useState({ name: '', email: '' });
+    const { cart, totalPrice, clearCart } = useContext(CartContext);
+    const [buyer, setBuyer] = useState({ name: '', email: '', phone: '' });
+    const [orderId, setOrderId] = useState(null);
 
     const handleChange = (e) => {
         setBuyer({ ...buyer, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!buyer.name || !buyer.email) {
-            toast.warn('Por favor, completá todos los campos', {
-                position: "top-right",
-                autoClose: 1500,
-                theme: "colored",
-            });
+        if (!buyer.name || !buyer.email || !buyer.phone) {
+            toast.error('Completa todos los campos');
             return;
         }
 
         const order = {
             buyer,
             items: cart,
-            date: new Date().toLocaleString(),
+            total: totalPrice,
+            date: Timestamp.fromDate(new Date())
         };
 
-        localStorage.setItem('lastOrder', JSON.stringify(order));
-
-        toast.success('¡Compra finalizada con éxito!', {
-            position: "top-center",
-            autoClose: 2000,
-            theme: "colored",
-        });
-
-        clearCart();
-        setBuyer({ name: '', email: '' });
+        try {
+            const docRef = await addDoc(collection(db, 'orders'), order);
+            setOrderId(docRef.id);
+            clearCart();
+            toast.success('¡Compra realizada con éxito!');
+        } catch (error) {
+            console.error("Error al guardar la orden: ", error);
+            toast.error('Error al procesar la compra');
+        }
     };
 
     return (
         <div className="container mt-5">
-            <h2 className="mb-4">Finalizar Compra</h2>
+            <h2>Checkout</h2>
 
-            <form onSubmit={handleSubmit} className="mb-4">
-                <div className="mb-3">
-                    <label className="form-label">Nombre</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="name"
-                        value={buyer.name}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        name="email"
-                        value={buyer.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Finalizar Compra</button>
-            </form>
+            {cart.length === 0 ? (
+                <p>No hay productos en el carrito.</p>
+            ) : (
+                <Brief /> // ⬅️ Aquí se muestra el resumen del carrito reutilizando Brief
+            )}
 
-            <Brief />
+            <h2 className="mt-4">Finalizar compra</h2>
+            {orderId ? (
+                <div className="alert alert-success">
+                    ¡Gracias por tu compra! Tu ID de orden es: <strong>{orderId}</strong>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label className="form-label">Nombre</label>
+                        <input type="text" name="name" className="form-control" onChange={handleChange} required />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Email</label>
+                        <input type="email" name="email" className="form-control" onChange={handleChange} required />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Teléfono</label>
+                        <input type="text" name="phone" className="form-control" onChange={handleChange} required />
+                    </div>
+                    <button type="submit" className="btn btn-success">Finalizar compra</button>
+                </form>
+            )}
         </div>
     );
 };
 
 export default Checkout;
+
+
+
+

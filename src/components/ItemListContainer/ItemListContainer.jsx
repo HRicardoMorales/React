@@ -1,38 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AddItemButton from '../ItemDetailContainer/AddItemButton';
-import ItemQuantitySelector from '../ItemDetailContainer/ItemQuantitySelector';
-import { useContext } from 'react';
 import { CartContext } from '../../context/CartContext';
-
-const categoryMap = {
-    "men's clothing": "ropa",
-    "electronics": "electronica",
-    "jewelery": "accesorios",
-    "women's clothing": "ropa"
-};
 
 const ItemListContainer = ({ greeting }) => {
     const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useContext(CartContext);
-
     const [quantities, setQuantities] = useState({});
 
     useEffect(() => {
-        setLoading(true);
-        fetch('https://fakestoreapi.com/products')
-            .then(response => response.json())
-            .then(data => {
-                const filteredProducts = categoryId
-                    ? data.filter(p => categoryMap[p.category] === categoryId)
-                    : data;
-                setProducts(filteredProducts);
-            })
-            .catch(error => console.error("Error al obtener productos:", error))
-            .finally(() => setLoading(false));
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                const productsRef = collection(db, "products");
+
+                let q = productsRef;
+                if (categoryId) {
+                    q = query(productsRef, where("category", "==", categoryId));
+                }
+
+                const querySnapshot = await getDocs(q);
+                const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setProducts(items);
+            } catch (error) {
+                console.error("Error al obtener productos de Firebase:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
     }, [categoryId]);
 
     const handleQuantityChange = (productId, newQuantity) => {
@@ -52,9 +54,9 @@ const ItemListContainer = ({ greeting }) => {
                             <div style={{ height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                                 <img
                                     src={product.image}
-                                    className="card-img-top"
                                     alt={product.title}
-                                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                    className="img-fluid"
+                                    style={{ maxHeight: '250px', objectFit: 'contain' }}
                                 />
                             </div>
                             <div className="card-body d-flex flex-column">
@@ -80,6 +82,7 @@ const ItemListContainer = ({ greeting }) => {
 };
 
 export default ItemListContainer;
+
 
 
 
